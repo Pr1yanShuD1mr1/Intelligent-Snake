@@ -1,0 +1,112 @@
+<style> body{ white-space: pre; font-family: monospace; font-weight: bold; } </style>.
+
+
+
+
+in Reinforcement Learning Framework,
+
+Agent       : AI controlling the snake.
+Environment : game board itself.
+State       : game representation at any given time.
+Actions     : move {left, straight, right}
+Rewards     : +10 for eating food, -10 for game over, -10 for collision, otherwise 0.
+
+
+where,
+state can be defined as list of binary value 
+i.e. 
+[
+    danger { straight, right, left }
+    direction { left, right, up, down }
+    food { left, right, up, down }
+]
+
+action can be defined as onehot-encoder
+i.e.
+    [1,0,0] : move left
+    [0,1,0] : go straight
+    [0,0,1] : move right
+
+
+
+
+
+
+
+
+
+How it learn, 
+
+DQN : Deep Q-Networks
+DQN uses a neural network to approximate the optimal action-value function (Q-function)
+
+Input Layer     : Takes the state representation.
+Hidden Layers   : One or more fully connected layers to learn features from the state.
+Output Layer    : where each neuron outputs value-functions for each action given the state
+
+
+
+
+
+
+
+
+
+Reinforcement Learning Algorithm 
+
+1.
+Initialization:
+Instantiate the game Environment.
+Initialize the Agent with placeholder capabilities.
+Set the starting snake and food positions.
+Reset the game state (score, direction, etc.) to the initial conditions.
+
+2.
+Main Training Loop (for a specified number of episodes):
+  Begin Episode:
+    Loop until Episode Termination:
+      Observe State: Query the Environment for the current state (e.g., snake head position, food position, body positions).
+      Select Action: Use the Agent's policy (e.g., `ε-greedy` exploration, softmax with temperature) to select an action (one of the four directions).
+      Execute Action: Command the Environment to execute the chosen action, resulting in the snake moving one cell.
+      Observe Next State: The Environment transitions. The Action results in a new state.
+      Receive Reward: The Environment calculates and returns the reward based on the outcome of the Action (e.g., +10 for food, -100 for collision, -1 per timestep).
+      Update Agent: Provide the observation (State, Action, Next State, Reward) tuple to the Agent's learning algorithm to update its policy and value estimates.
+    Terminate Episode:
+  End of Episode:
+  Log Results: Record the total reward (final score) for the completed episode.
+  Continue to Next Episode:
+
+Output: 
+The primary learning output is the trained Agent, whose internal policy can be used to play the game autonomously.
+The performance metric is the average total reward (final score) achieved over all training episodes.
+
+
+
+
+
+
+
+
+
+Exploration vs. Exploitation
+
+Exploitation    : when the agent uses its current knowledge (the Q-table) to choose the action with the highest Q-value.
+Exploration     : when the agent tries a random action to discover new state-action pairs and potentially find even better rewards.
+
+How is this balance achieved ?
+The answer is the epsilon-greedy strategy.
+where, epsilon (ε) is a small probability of action.
+
+With probability ε, choose a random action (explore).
+With probability 1-ε, choose the best-known action (exploit).
+
+Start with a high ε (e.g., 1.0) to explore a lot at the beginning, and gradually decay it to a low value (e.g., 0.01) so the agent focuses on exploiting its knowledge later on.
+
+
+
+
+
+
+
+
+

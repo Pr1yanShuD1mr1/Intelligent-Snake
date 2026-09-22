@@ -1,0 +1,9 @@
+
+# Ploting
+matplotlib
+Ipython
+
+# Neural Network
+torch
+torchvision
+

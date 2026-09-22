@@ -1,0 +1,127 @@
+<style> body{ white-space:pre; font-family:monospace; } </style>.
+
+
+
+tensor 
+tensor is a data structure representing an n-dimensional array of numbers. 
+such as,
+    0-dimensional tensor is a scalar
+    1-dimensional tensor is a vector
+    2-dimensional tensor is a matrix
+
+neural networks process all information in the form of tensors. 
+whether the input is { an image, a sentence, an audio recording, or a video }, 
+it is first converted into a tensor before being supplied to the model for computation.
+
+tensor act as data containers in neural networks, storing inputs, outputs, weights, biases, and intermediate computations. 
+they allow AI models to perform mathematical operations like addition, multiplication, and dot products across multiple dimensions.
+
+
+
+
+
+
+
+
+
+torch.Tensor
+torch.Tensor is a multi-dimensional matrix containing elements of a single data type.
+
+
+
+# CREATION
+
+tensor can be constructed from a Python list or sequence using the torch.tensor() constructor:
+e.g.
+    torch.tensor([1.0, 2.0, 3.0])
+
+
+Specialized Creation Functions
+
+torch.zeros(shape)  : create a tensor of given shape filled with 0.
+torch.ones(shape)   : create a tensor filled with 1.
+torch.rand(shape)   : create a tensor with random values between 0 and 1 (uniform distribution).
+
+where, shape is a tuple representing dimensions
+
+
+
+
+# PROPERTIES
+
+tensor.shape   : dimensions of the tensor (tensor.shape).
+tensor.dtype   : type of data (integer, float32, etc.).
+tensor.device  : location of the tensor (CPU or GPU), (tensor.device).
+
+e.g.
+x = torch.tensor([[1, 2, 3], [4, 5, 6]]) 
+y = torch.tensor([1.0, 2.0, 3.0], dtype=torch.float64)
+z = torch.ones((3, 3), device='cpu')
+
+x.shape
+y.dtype
+z.device
+
+
+
+# BASIC OPERATIONS
+
+1.
+Indexing and Slicing: 
+You can index into a tensor just like you would with a list or NumPy array.
+
+# Assuming x is a 2D tensor
+val = x[0, 1]     # Element at the 0th row, 1st column
+row = x[0, :]     # entire first row (0th index)
+col = x[:, 1]     # entire second column (1st index)
+
+
+2.
+Reshaping
+To modify the dimensions of a tensor without altering its underlying data, 
+use tensor.view() or tensor.reshape().
+e.g.
+x = x.view(3,2)
+x = x.reshape(3,2)
+
+
+3.
+Arithmetic
+you can perform both { element-wise, scaler } operation on a tensor,
+the difference is whether the other operand is another tensor or a scalar.
+
+e.g.
+a = torch.tensor([1., 2., 3.])
+b = torch.tensor([10., 20., 30.])
+
+a + b   # [11., 22., 33.]
+a - b   # [-9., -18., -27.]
+a * b   # [10., 40., 90.]
+a / b   # [0.1, 0.1, 0.1]
+
+a + 5   # [6., 7., 8.]
+a - 5   # [-4., -3., -2.]
+a * 5   # [5., 10., 15.]
+a / 2   # [0.5, 1.0, 1.5]
+
+
+
+
+
+
+
+
+
+Move a tensor to GPU (if available)
+if torch.cuda.is_available():
+    z = z.to('cuda')
+
+
+
+
+
+
+
+
+
+https://docs.pytorch.org/docs/main/tensors.html

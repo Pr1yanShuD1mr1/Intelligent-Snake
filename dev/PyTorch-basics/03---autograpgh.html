@@ -1,0 +1,154 @@
+<style> body{ white-space:pre; font-family:monospace; } </style>
+
+
+Training a NN happens in two steps:
+
+Forward Propagation: 
+NN makes its best guess about the correct output. 
+It runs the input data through each of its functions to make this guess.
+
+Backward Propagation: 
+NN adjusts its parameters proportionate to the error in its guess. 
+It does this by traversing backwards from the output, collecting the derivatives of the error with respect to the parameters of the functions (gradients), and optimizing the parameters using gradient descent. 
+
+
+
+
+
+Graphs are used to represent the computation of a model, 
+
+
+
+
+Autograd : torch.autograd
+it is an automatic differentiation engine, used for training neural networks (backpropagation).
+it is responsible for automatically calculating the derivatives (gradients) of a function(loss) with respect to your model's parameters.
+it operates by building a dynamic computation graph, during the forward pass of a model.
+where,  
+    Nodes represent tensors.
+    Edges represent functions that produce an output tensor from an input tensor.
+
+
+When a tensor is created with the `requires_grad=True` attribute, 
+PyTorch begins to track all operations performed on it.
+Each operation creates a new node in the graph, linking the input tensors to the output tensor.
+
+
+
+
+
+
+
+
+
+torch.Tensor.requires_grad               : boolean attribute of a tensor that tells PyTorch whether to track operations on it.
+torch.tensor([1.0], requires_grad=True)  : Creates a tensor and instructs `autograd` to build a computation graph for it.
+torch.tensor([1.0], requires_grad=False) : Creates a standard tensor. operations on it are not tracked, and no gradients will be computed.
+
+
+torch.autograd.backward()
+it is the function that initiates the gradient calculation.
+It traverses the computational graph backward, starting from a specified tensor (typically a scalar loss value), and computes the gradient of that tensor with respect to all other tensors that have `requires_grad=True`.
+
+
+after calling backward(),
+computed gradients are stored in the `.grad` attribute of the corresponding tensors.
+i.e. x.grad holds the gradient of the loss with respect to `x`.
+if backward() is not called, this attribute will be `None`.
+
+
+torch.no_grad()
+it is used to disable gradient calculation.
+in this mode, the result of every computation will have requires_grad=False, even when the inputs have requires_grad=True.
+it is useful when you do not need to compute gradients, as it saves memory and computational resources.
+
+e.g.
+    x = torch.tensor([1.], requires_grad=True)
+
+    with torch.no_grad():
+        y = x * 2
+    y.requires_grad     # False
+
+    @torch.no_grad()
+    def doubler(x):
+        return x * 2
+
+    z = doubler(x)
+    z.requires_grad     # False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+import torch
+
+# 1.
+Create a tensor that requires gradients.
+x = torch.tensor(1.0, requires_grad=True)
+
+# 2.
+Define the computation.
+y = (x + 2)  3
+
+# 3.
+Define a scalar loss function.
+# In this simple case, the loss is the output itself.
+# In a real scenario, this would be a loss like CrossEntropyLoss or MSELoss.
+loss = y
+
+# 4.
+Perform the backward pass.
+# This computes the gradient of `loss` with respect to all tensors
+# that have `requires_grad=True`.
+loss.backward()
+
+# 5.
+Inspect the gradient.
+print(f"The value of x is: {x}")
+print(f"The gradient of x (∂loss/∂x) is: {x.grad}")
+```
+
+
+
+
+
+
+
+
+
+# 1. Initialize tensor
+x = torch.tensor(2.0, requires_grad=True)
+
+# 2. Forward pass: define the computation
+y = 3 * x**2 + 2 * x
+
+# 3. Backward pass: compute the gradients
+y.backward()
+
+# 4. Access the gradient
+print("Gradient dy/dx at x=2:", x.grad)
+# Output: Gradient dy/dx at x=2: tensor(14.)
+
+
+
+
+
+
+
+
+

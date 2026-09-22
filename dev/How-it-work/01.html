@@ -1,0 +1,48 @@
+<style> body{ white-space: pre; font-family: monospace; font-weight: bold; } </style>.
+
+
+in classical snake game,
+player controls a snake in a playing field, 
+collecting orbs which give the player points and make the snake grow in size,
+while avoiding the walls and the snake's own longer body.
+
+
+
+
+1.
+Initial Setup:
+Create a square grid of cells.
+Place the snake in the center of the grid with its head pointing initially to the right.
+Place food in a random empty spot on the grid.
+Set the initial length, speed, and score of the player.
+
+2.
+Main Game Loop:
+As long as the game is not over, repeat the following sequence:
+  Receive Input: Detect any directional keys pressed by the player (up, down, left, right) and change the snake's heading accordingly, while preventing illegal 180-degree turns.
+  Move Snake:
+    Advance the snake's head one cell in its current direction.
+    Shift the rest of the snake's body forward, with the head at the front.
+    If the food was eaten on the previous turn, do not remove the tail; otherwise, remove it.
+  Check for Collision:
+    If the new head position is on the edge of the grid, the game ends.
+    If the new head position occupies the same cell as any other part of the snake's body, the game ends.
+  Check for Food:
+    If the new head position is on the cell containing food, the food disappears.
+    The snake's length increases by one segment, and its score increases by one point.
+    A new food item is placed in a random, unoccupied cell.
+    The game speed is increased slightly to increase the challenge.
+
+3.
+Game Over:
+Upon detecting a boundary or self-collision, the game terminates.
+Display the final score to the player.
+
+
+
+
+
+
+
+
+

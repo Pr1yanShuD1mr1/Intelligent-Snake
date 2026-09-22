@@ -1,0 +1,12 @@
+
+Source
+    environment --- pygame
+    agent
+    model --- pytorch
+
+model
+    model
+
+practice
+    training.py
+    testing.py

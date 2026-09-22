@@ -1,0 +1,229 @@
+<style> body{ white-space: pre; font-family: monospace; } </style>.
+
+
+Markov process
+Markov Process is defined as a tuple (S,P).
+where,
+  S : finite set of states
+  P : state transition probability matrix
+
+
+
+Markov process is a mathematical system that undergoes transitions from one state to another, between a finite possible states. 
+where each transition is assigned a probability that defines the chance of the system changing from one state to another.
+e.g.
+<table>
+  <caption>Two-State Markov Process</caption>
+  <tr> 
+    <td><img src="../Images/markov-process---two-state.webp" height="150px"></td> 
+    <td><pre>
+if in state A:
+  stays in A: probability 0.6
+  moves to E: probability 0.4
+
+if in state E:
+  moves to A: probability 0.7
+  stays in E: probability 0.3
+    </pre></td> 
+  </tr>
+</table>
+Markov process is stochastic i.e. describe the evolution of a random system over time,
+where the future state depends only on the current state and not on the sequence of events that preceded it. 
+i.e. memoryless random process
+mathematically  
+  # for any t > s
+  = P( X(t)=x | X(s)=y, history before s) 
+  = P( X(t)=x | X(s)=y) 
+
+
+
+Transition Matrix
+it consists of the transition probabilities of moving from initial state to final state. 
+    <img src="../Images/transition-probability-matrix.png" height="150px">
+where,
+  rows represent the system's current state (i).
+  cols represent the system's next state (j).
+
+Pᵢⱼ represents the exact probability of transitioning from state i to j in a single step
+mathematically
+    Pᵢⱼ = P(Xₙ₊₁=j|Xₙ=i)
+where,
+each row of the matrix sums to 1 (marginalization)
+
+
+
+
+
+<img src="../Images/markov-process-eg---student.png" height="300px">
+
+
+
+
+
+MDP : Markov decision proces
+MDP is mathematical framework defining the interaction between a learning agent and its environment in terms of states, actions, and rewards. 
+MDP is represented formally by a quin-tuple M = ⟨S,A,T,R,γ⟩, 
+where
+  S         : set of states
+  A         : set of actions
+  T : SxAxS : transition function, T(s,a,s') probability of reaching state s', when action a is selected at state s.
+  R : SxAxS : reward function, R(s,a,s') specifies an immediate reward for taking action a∈A when in state s∈S.
+  γ ∈ [0,1] : discount factor that determines the importance of future rewards.
+
+  <img src="../Images/markov-process-eg---student-2.png" height="300px">
+at each time step t:
+  the agent is in a state s<sub>t</sub>∈S.
+  the agent chooses an action a<sub>t</sub>∈A.
+
+after taking the action,
+  the environment moves to a new state s<sub>t+1</sub> &isin; S.
+  the reward function R(<sub>t+1</sub>) specifies the reward for being in state S<sub>t+1</sub>. 
+
+
+
+
+
+
+
+
+
+Discounting
+It is method used to determines the importance of future rewards.
+It is used to reduce the importance of rewards received in future compared to rewards received immediately.
+It is represented by the discount factor γ ∈ [0,1).
+where,
+  γ=0 → agent considers only immediate rewards.
+  γ≈1 → agent values future rewards almost as much as immediate rewards.
+
+
+
+discounted return
+It is refers to expected cumulative reward
+  = G<sub>t</sub> 
+  = R<sub>t+1</sub> + γR<sub>t+2</sub> + γ²R<sub>t+3</sub> ...
+  = <sub>k=0</sub>∑ γᵏ R<sub>t+k+1</sub>
+where,
+G<sub>t</sub> is the total return at time t.
+
+
+
+
+
+
+
+
+
+policy 
+policy determines what action(s) to take at each state.
+policy defines the agent's behavior by mapping states to actions (or distributions over actions).
+policy is represented by function π:SxA→[0,1]
+
+Types of Policies
+ 1. stochastic    : assigns a distribution over actions to each state. 
+ 2. deterministic : directly maps a state to an action to take when in that state.
+
+Agent's goal to learn an optimal policy π* that maximizes the reward function
+
+
+
+
+
+
+
+
+
+value function
+it helps to estimates how much total reward the agent can expect to accumulate in the future, 
+
+Types of Value Functions
+
+1.
+State-Value Function : V<sup>π</sup>(s)
+Estimates the expected return starting from state s and following policy π. 
+mathematically
+  V<sup>π</sup>(s)=E<sub>π</sub>[<sub>k=0</sub>∑ γ<sup>k</sup> R<sub>t+k+1</sub> | S<sub>t</sub>=s]
+
+2.
+Action-Value Function :Q<sup>π</sup>(s,a)
+Estimates the expected return starting from state s, taking action a, and then following policy π. 
+mathematically
+Q<sup>π</sup>(s,a) = E<sub>π</sub>[<sub>k=0</sub>∑γ<sup>k</sup> R<sub>t+k+1</sub> | S<sub>t</sub>=s, A <sub>t</sub>=a ]
+
+
+
+
+
+
+
+optimal policy π*
+optimal policy π* selects the action a, that maximizes the expected cumulative reward starting from a given state s.
+i.e. π* = argmax<sub>π</sub>η(π)
+mathematically
+    V*(s)    = argmax<sub>π</sub>V<sup>π</sup>(s)
+    Q*(s, a) = argmax<sub>π</sub>Q<sup>π</sup>(s,a)
+
+
+
+Bellman optimality equation
+
+the value function can be decomposed into two parts:
+ a. immediate reward R<sub>t+1</sub>
+ b. discounted value of successor state γ.V(S<sub>t+1</sub>)
+
+    V*(s) = max<sub>a</sub>T(s,a,s') [R(s,a,s') + γ.V*(s')] 
+    Q*(s,a) = <sub>s'∈S</sub>∑ T(s,a,s') [R(s,a,s') + γ.V*(s')] 
+
+Bellman equation is a linear equation (& can be express as matrx)
+          v = R + γPv
+    (1-γP)v = R
+          v = (1-γP)⁻¹R
+
+
+
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+
+Dynamic Programming Algorithms
+ 1. Policy Evaluation
+ 2. Policy Iteration
+ 3. Value Iteration
+
+
+
+
+Value Iteration
+
+    for s∈S, a∈A :
+        Q<sub>old</sub>(s, a) = 0
+    while not converged:
+        for s∈S, a∈A :
+            Q<sub>new</sub>(s, a) = R(s,a) + γ ∑<sub>s'</sub>T(s, a, s') max<sub>a'</sub> Q<sub>old</sub>(s', a')
+        if max<sub>s,a</sub>|Q<sub>old</sub>(s, a) - Q<sub>new</sub>(s, a)| &lt; ϵ :
+            return Q<sub>new</sub>
+        Q<sub>old</sub> = Q<sub>new</sub>
+
+
+Problem with Value Iteration
+ 1. It is slow, O(S²A) per iteration
+ 2. The “max” at each state rarely changes
+ 3. The policy often converges long before the values
+
+        
+
+https://inst.eecs.berkeley.edu/~cs188/archive/su24/assets/lectures/cs188-su24-lec14.pdf
+
+
+
